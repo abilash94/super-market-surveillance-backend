@@ -4,8 +4,10 @@ Rails.application.routes.draw do
   get 'products/insert'
   get 'products/modify'
   get 'products/delete' 
+  get 'products/listspecific'
   get 'customers/listall'
   get 'customers/modify' 
+  get 'customers/listspecific'
   resources :products
   resources :customers
   

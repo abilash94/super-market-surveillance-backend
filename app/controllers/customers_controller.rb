@@ -22,6 +22,13 @@ class CustomersController < ApplicationController
     }
   end
 
+  def listspecific
+    pr = Customer.find_by(custID:customer_params[:custID])
+    return render json:{
+      :resp => pr.as_json(:only => [:id, :custID, :interested, :bought])
+    }
+  end
+
   def index
     @customers = Customer.all
   end

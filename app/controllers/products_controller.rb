@@ -41,6 +41,13 @@ class ProductsController < ApplicationController
     }
   end
 
+  def listspecific
+    pr = Product.find_by(name:product_params[:name])
+    return render json:{
+      :resp => pr.as_json(:only => [:id, :name, :count, :row, :col])
+    }
+  end
+
   # GET /products/1
   # GET /products/1.json
   def show
