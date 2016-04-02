@@ -1,9 +1,13 @@
 Rails.application.routes.draw do
+  
   get 'products/listall'
   get 'products/insert'
   get 'products/modify'
-  get 'products/delete'  
+  get 'products/delete' 
+  get 'customers/listall'
+  get 'customers/modify' 
   resources :products
+  resources :customers
   
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

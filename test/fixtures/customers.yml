@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  custID: 1
+  interested: MyString
+  bought: MyString
+
+two:
+  custID: 1
+  interested: MyString
+  bought: MyString
