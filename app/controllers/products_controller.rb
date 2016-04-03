@@ -8,9 +8,7 @@ class ProductsController < ApplicationController
   end
 
   def listall
-    return render json:{
-      :resp => Product.all.as_json(:only => [:id, :name, :count, :row, :col])
-    }
+    return render :json => Product.all.as_json(:only => [:id, :name, :count, :row, :col])
   end
 
   def modify
@@ -20,9 +18,7 @@ class ProductsController < ApplicationController
     pr[:col] = product_params[:col]
     pr.save
 
-    return render json:{
-      :resp => pr.as_json(:only => [:id, :name, :count, :row, :col])
-    }
+    return render :json => pr.as_json(:only => [:id, :name, :count, :row, :col])
   end
 
   def delete
@@ -36,16 +32,12 @@ class ProductsController < ApplicationController
   def insert
     pr = Product.new(product_params)
     pr.save
-    return render json:{
-      :response => pr
-    }
+    return render :json => pr.as_json(:only => [:id, :name, :count, :row, :col])
   end
 
   def listspecific
     pr = Product.find_by(name:product_params[:name])
-    return render json:{
-      :resp => pr.as_json(:only => [:id, :name, :count, :row, :col])
-    }
+    return render :json => pr.as_json(:only => [:id, :name, :count, :row, :col])
   end
 
   # GET /products/1

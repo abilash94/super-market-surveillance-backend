@@ -6,9 +6,7 @@ class CustomersController < ApplicationController
   # GET /customers.json
 
   def listall
-    return render json:{
-      :resp => Customer.all.as_json(:only => [:id, :custID, :interested, :bought])
-    }
+    return render :json => Customer.all.as_json(:only => [:id, :custID, :interested, :bought])
   end
 
   def modify
@@ -17,16 +15,12 @@ class CustomersController < ApplicationController
     pr[:bought] = customer_params[:bought]
     pr.save
 
-    return render json:{
-      :resp => pr.as_json(:only => [:id, :custID, :interested, :bought])
-    }
+    return render :json => pr.as_json(:only => [:id, :custID, :interested, :bought])
   end
 
   def listspecific
     pr = Customer.find_by(custID:customer_params[:custID])
-    return render json:{
-      :resp => pr.as_json(:only => [:id, :custID, :interested, :bought])
-    }
+    return render :json => pr.as_json(:only => [:id, :custID, :interested, :bought])
   end
 
   def index
