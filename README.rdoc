@@ -1,6 +1,6 @@
 == README
 
-<h1><b>FYP rails backend</b></h1>
+<b>FYP rails backend</b>
 
 <b>Products:</b>
     display all the products:
