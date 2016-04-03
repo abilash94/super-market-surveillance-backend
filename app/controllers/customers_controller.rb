@@ -69,9 +69,7 @@ class CustomersController < ApplicationController
     interestedBefore = interestedBefore.split(' ')
     currentCart = currentCart.split(' ')
 
-    print "CURRENT CART " + currentCart.to_s + "\t"
-    print "BOUGHT " + bought.to_s + "\t"
-    print "INTERESTED BEFORE " + interestedBefore.to_s + "\t"
+    
     # => remove all items that are bought by the customer
     notBought = []
     alreadyPresent = false
@@ -86,7 +84,7 @@ class CustomersController < ApplicationController
         notBought.push(possibleItem)
       end
     end
-    print "NOT BOUGHT" + notBought.to_s + "\t"
+    
     # => remove already interested products
     newInterest = true
     newInterests = []
@@ -100,11 +98,10 @@ class CustomersController < ApplicationController
         newInterests.push(currentInterest)
       end
     end
-    print "NEWLY INTERESTED " + newInterests.to_s + "\t" 
+    
     # => concatenate the newly interested products
     finalInterests = interestedBefore
     for i in newInterests
-      print "I " + i + "\t"
       finalInterests = finalInterests.push(i)
     end
     cust = Customer.find_by(custID:customer_params[:custID])
@@ -117,10 +114,8 @@ class CustomersController < ApplicationController
 
     cust[:interested] = finalInterestsString
     cust.save
-    print "FINAL INTERESTS" + finalInterests.to_s
-    #print "UPDATE" +  bought + interestedBefore + currentCart
 
-    return render json:{:a => 200}
+    return render :json => finalInterests.to_s
     # respond_to do |format|
     #   if @customer.update(customer_params)
     #     format.html { redirect_to @customer, notice: 'Customer was successfully updated.' }
