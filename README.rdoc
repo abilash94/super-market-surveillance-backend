@@ -1,28 +1,51 @@
 == README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+<h1><b>FYP rails backend</b></h1>
 
-Things you may want to cover:
+<b>Products:</b>
+    display all the products:
+    http://localhost:3000/products/listall
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+    response:
+    [{"id":1,"name":"soap","count":10,"row":1,"col":1}]
 
 
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+
+    insert product:
+    http://localhost:3000/products/insert?product[name]=rin&product[count]=2&product[row]=2&product[col]=2
+
+
+
+    update existing details:
+    http://localhost:3000/products/modify?product[name]=rin&product[count]=10&product[row]=1&product[col]=2
+
+
+    remove entry:
+    http://localhost:3000/products/delete?product[name]=rin
+
+
+    retrieve specific product:
+    http://localhost:3000/products/listspecific?product%5Bname%5D=soap
+
+
+
+<b>Customers:</b>
+
+
+    display all customers:
+    http://localhost:3000/customers/listall
+
+    response:
+    [{"id":1,"custID":1,"interested":"train","bought":"car"}]
+
+
+    update existing entry:
+    http://localhost:3000/customers/modify?customer[custID]=1&customer[interested]=train&customer[bought]=car
+
+
+    retrieve specific customer:
+    http://localhost:3000/customers/listspecific?customer[custID]=1
+
+
+    response:
+    {"id":1,"custID":1,"interested":"train","bought":"car"}
