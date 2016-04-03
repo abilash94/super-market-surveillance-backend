@@ -1,5 +1,5 @@
 class CustomersController < ApplicationController
-  #before_action :set_customer, only: [:show, :edit, :update, :destroy]
+  before_action :set_customer, only: [:show, :edit, :update, :destroy]
   respond_to :json
 
   # GET /customers
@@ -60,15 +60,76 @@ class CustomersController < ApplicationController
   # PATCH/PUT /customers/1
   # PATCH/PUT /customers/1.json
   def update
-    respond_to do |format|
-      if @customer.update(customer_params)
-        format.html { redirect_to @customer, notice: 'Customer was successfully updated.' }
-        format.json { render :show, status: :ok, location: @customer }
-      else
-        format.html { render :edit }
-        format.json { render json: @customer.errors, status: :unprocessable_entity }
+    bought = customer_params[:bought]
+    interestedBefore = customer_params[:interested]
+    currentCart = BillingCustomerCart.first[:cart]
+    BillingCustomerCart.first.destroy
+
+    bought = bought.split(' ')
+    interestedBefore = interestedBefore.split(' ')
+    currentCart = currentCart.split(' ')
+
+    print "CURRENT CART " + currentCart.to_s + "\t"
+    print "BOUGHT " + bought.to_s + "\t"
+    print "INTERESTED BEFORE " + interestedBefore.to_s + "\t"
+    # => remove all items that are bought by the customer
+    notBought = []
+    alreadyPresent = false
+    for possibleItem in currentCart
+      alreadyPresent = false
+      for alreadyBought in bought
+        if possibleItem == alreadyBought
+          alreadyPresent = true
+        end
+      end
+      if not alreadyPresent
+        notBought.push(possibleItem)
       end
     end
+    print "NOT BOUGHT" + notBought.to_s + "\t"
+    # => remove already interested products
+    newInterest = true
+    newInterests = []
+    for currentInterest in notBought
+      for alreadyInterested in interestedBefore
+        if alreadyInterested == currentInterest
+          newInterest = false
+        end
+      end
+      if newInterest
+        newInterests.push(currentInterest)
+      end
+    end
+    print "NEWLY INTERESTED " + newInterests.to_s + "\t" 
+    # => concatenate the newly interested products
+    finalInterests = interestedBefore
+    for i in newInterests
+      print "I " + i + "\t"
+      finalInterests = finalInterests.push(i)
+    end
+    cust = Customer.find_by(custID:customer_params[:custID])
+
+
+    finalInterestsString = ""
+    for i in finalInterests
+      finalInterestsString = finalInterestsString + " " + i
+    end
+
+    cust[:interested] = finalInterestsString
+    cust.save
+    print "FINAL INTERESTS" + finalInterests.to_s
+    #print "UPDATE" +  bought + interestedBefore + currentCart
+
+    return render json:{:a => 200}
+    # respond_to do |format|
+    #   if @customer.update(customer_params)
+    #     format.html { redirect_to @customer, notice: 'Customer was successfully updated.' }
+    #     format.json { render :show, status: :ok, location: @customer }
+    #   else
+    #     format.html { render :edit }
+    #     format.json { render json: @customer.errors, status: :unprocessable_entity }
+    #   end
+    # end
   end
 
   # DELETE /customers/1

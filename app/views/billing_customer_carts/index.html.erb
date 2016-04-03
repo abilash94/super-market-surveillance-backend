@@ -1,0 +1,27 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Billing Customer Carts</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Cart</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @billing_customer_carts.each do |billing_customer_cart| %>
+      <tr>
+        <td><%= billing_customer_cart.cart %></td>
+        <td><%= link_to 'Show', billing_customer_cart %></td>
+        <td><%= link_to 'Edit', edit_billing_customer_cart_path(billing_customer_cart) %></td>
+        <td><%= link_to 'Destroy', billing_customer_cart, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Billing customer cart', new_billing_customer_cart_path %>

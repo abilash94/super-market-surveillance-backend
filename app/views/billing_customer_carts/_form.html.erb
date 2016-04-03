@@ -1,0 +1,21 @@
+<%= form_for(@billing_customer_cart) do |f| %>
+  <% if @billing_customer_cart.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@billing_customer_cart.errors.count, "error") %> prohibited this billing_customer_cart from being saved:</h2>
+
+      <ul>
+      <% @billing_customer_cart.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :cart %><br>
+    <%= f.text_field :cart %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

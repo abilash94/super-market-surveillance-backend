@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   
+  
   get 'products/listall'
   get 'products/insert'
   get 'products/modify'
@@ -8,6 +9,8 @@ Rails.application.routes.draw do
   get 'customers/listall'
   get 'customers/modify' 
   get 'customers/listspecific'
+  get 'billing_customer_carts/cart_arrival'
+  resources :billing_customer_carts
   resources :products
   resources :customers
   
