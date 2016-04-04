@@ -13,14 +13,15 @@ class CustomersController < ApplicationController
     pr = Customer.find_by(custID:customer_params[:custID])
     pr[:interested] = customer_params[:interested]
     pr[:bought] = customer_params[:bought]
+    pr[:phone] = customer_params[:phone]
     pr.save
 
-    return render :json => pr.as_json(:only => [:id, :custID, :interested, :bought])
+    return render :json => pr.as_json(:only => [:id, :custID, :interested, :bought, :phone])
   end
 
   def listspecific
     pr = Customer.find_by(custID:customer_params[:custID])
-    return render :json => pr.as_json(:only => [:id, :custID, :interested, :bought])
+    return render :json => pr.as_json(:only => [:id, :custID, :interested, :bought, :phone])
   end
 
   def index
@@ -117,6 +118,7 @@ class CustomersController < ApplicationController
 
 
     cust[:bought] = boughtString
+    cust[:phone] = customer_params[:phone]
     cust.save
 
     return render :json => finalInterests.to_s
@@ -149,6 +151,6 @@ class CustomersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def customer_params
-      params.require(:customer).permit(:custID, :interested, :bought)
+      params.require(:customer).permit(:custID, :interested, :bought, :phone)
     end
 end

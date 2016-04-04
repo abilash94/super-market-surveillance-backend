@@ -31,9 +31,34 @@ class ProductsController < ApplicationController
     }
   end
 
+  # => return phone numbers of customers who are interested in the product with the same col as the parameter
+  def filterPeopleToBeNotified(column)
+      filteredCustomers = []
+      products = Product.where(col:column)
+      allCustomers = Customer.all
+      
+      for pr in products
+        for cust in allCustomers
+          if cust[:interested].include? pr[:name]
+            filteredCustomers.push(cust[:phone])
+          end
+        end
+      end
+
+      return filteredCustomers
+  end
+
+  # => send msgs to these customers
+  def sendMsgs(phoneNos, msg)
+    for num in phoneNos
+
+    end
+  end
+
   def insert
     pr = Product.new(product_params)
     pr.save
+
     return render :json => pr.as_json(:only => [:id, :name, :count, :row, :col, :price, :soldCount])
   end
 
@@ -50,6 +75,7 @@ class ProductsController < ApplicationController
   # GET /products/new
   def new
     @product = Product.new
+
   end
 
   # GET /products/1/edit
@@ -60,7 +86,15 @@ class ProductsController < ApplicationController
   # POST /products.json
   def create
     @product = Product.new(product_params)
-    
+
+    # => get all people who might be interested in this new product
+    receipentNos = filterPeopleToBeNotified(@product[:row])
+    print "PHONE " + receipentNos.to_s
+
+    # => send msgs to all the prospective customers
+    sendMsgs(receipentNos, "Product " + @product[:name] + " has arrived. Shop immediately !!")
+
+
     respond_to do |format|
       if @product.save
         format.html { redirect_to @product, notice: 'Product was successfully created.' }
@@ -75,6 +109,25 @@ class ProductsController < ApplicationController
   # PATCH/PUT /products/1
   # PATCH/PUT /products/1.json
   def update
+
+    priceLowering = false
+
+    # => previous price of this product
+    pr = Product.find_by(name:@product[:name])
+    new_price = product_params[:price].to_i
+    if new_price < pr[:price].to_i
+      priceLowering = true
+    end
+
+    if priceLowering
+      # => get all people who might be interested in this new product
+      receipentNos = filterPeopleToBeNotified(product_params[:row])
+      print "PHONE " + receipentNos.to_s
+
+      # => send msgs to all the prospective customers
+      sendMsgs(receipentNos, "Product " + @product[:name] + " has decreased in price to " + new_price.to_s + ". Shop immediately !!")
+    end
+
     respond_to do |format|
       if @product.update(product_params)
         format.html { redirect_to @product, notice: 'Product was successfully updated.' }

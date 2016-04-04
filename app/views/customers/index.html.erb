@@ -2,12 +2,13 @@
 
 <h1>Listing Customers</h1>
 
-<table>
+<table border=1>
   <thead>
     <tr>
       <th>Custid</th>
       <th>Interested</th>
       <th>Bought</th>
+      <th>phone</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -18,6 +19,7 @@
         <td><%= customer.custID %></td>
         <td><%= customer.interested %></td>
         <td><%= customer.bought %></td>
+        <td><%= customer.phone %></td>
         <td><%= link_to 'Show', customer %></td>
         <td><%= link_to 'Edit', edit_customer_path(customer) %></td>
         <td><%= link_to 'Destroy', customer, method: :delete, data: { confirm: 'Are you sure?' } %></td>
