@@ -60,7 +60,7 @@ class CustomersController < ApplicationController
   # PATCH/PUT /customers/1
   # PATCH/PUT /customers/1.json
   def update
-    bought = customer_params[:bought]
+    boughtString = bought = customer_params[:bought]
     interestedBefore = customer_params[:interested]
     currentCart = BillingCustomerCart.first[:cart]
     BillingCustomerCart.first.destroy
@@ -113,6 +113,10 @@ class CustomersController < ApplicationController
     end
 
     cust[:interested] = finalInterestsString
+
+
+
+    cust[:bought] = boughtString
     cust.save
 
     return render :json => finalInterests.to_s
