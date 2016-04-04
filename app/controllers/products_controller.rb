@@ -8,7 +8,7 @@ class ProductsController < ApplicationController
   end
 
   def listall
-    return render :json => Product.all.as_json(:only => [:id, :name, :count, :row, :col])
+    return render :json => Product.all.as_json(:only => [:id, :name, :count, :row, :col, :price, :soldCount])
   end
 
   def modify
@@ -16,9 +16,11 @@ class ProductsController < ApplicationController
     pr[:count] = product_params[:count]
     pr[:row] = product_params[:row]
     pr[:col] = product_params[:col]
+    pr[:price] = product_params[:price]
+    pr[:soldCount] = product_params[:soldCount]
     pr.save
 
-    return render :json => pr.as_json(:only => [:id, :name, :count, :row, :col])
+    return render :json => pr.as_json(:only => [:id, :name, :count, :row, :col, :price, :soldCount])
   end
 
   def delete
@@ -32,12 +34,12 @@ class ProductsController < ApplicationController
   def insert
     pr = Product.new(product_params)
     pr.save
-    return render :json => pr.as_json(:only => [:id, :name, :count, :row, :col])
+    return render :json => pr.as_json(:only => [:id, :name, :count, :row, :col, :price, :soldCount])
   end
 
   def listspecific
     pr = Product.find_by(name:product_params[:name])
-    return render :json => pr.as_json(:only => [:id, :name, :count, :row, :col])
+    return render :json => pr.as_json(:only => [:id, :name, :count, :row, :col, :price, :soldCount])
   end
 
   # GET /products/1
@@ -58,7 +60,7 @@ class ProductsController < ApplicationController
   # POST /products.json
   def create
     @product = Product.new(product_params)
-
+    
     respond_to do |format|
       if @product.save
         format.html { redirect_to @product, notice: 'Product was successfully created.' }
@@ -102,10 +104,10 @@ class ProductsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def product_params
-      params.require(:product).permit(:name, :count, :row, :col)
+      params.require(:product).permit(:name, :count, :row, :col, :price, :soldCount)
     end
 
     def create_params
-      params.permit(:name, :count, :row, :col)
+      params.permit(:name, :count, :row, :col, :price, :soldCount)
     end
 end

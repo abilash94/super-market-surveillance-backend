@@ -20,5 +20,20 @@
   <%= @product.col %>
 </p>
 
+<p>
+  <strong>price:</strong>
+  <%= @product.price %>
+</p>
+
+<p>
+  <strong>soldCount:</strong>
+  <%= @product.soldCount %>
+</p>
+
+<p>
+  <strong>available:</strong>
+  <%= @product.count - @product.soldCount %>
+</p>
+
 <%= link_to 'Edit', edit_product_path(@product) %> |
 <%= link_to 'Back', products_path %>
