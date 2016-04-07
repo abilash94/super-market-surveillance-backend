@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   get 'customers/modify' 
   get 'customers/listspecific'
   get 'billing_customer_carts/cart_arrival'
+  get 'billing_customer_carts/deleteAll'
   resources :billing_customer_carts
   resources :products
   resources :customers

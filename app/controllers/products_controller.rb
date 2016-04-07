@@ -1,6 +1,7 @@
 class ProductsController < ApplicationController
   before_action :set_product, only: [:show, :edit, :update, :destroy]
   respond_to :json
+  require 'json'
   # GET /products
   # GET /products.json
   def index
@@ -51,7 +52,8 @@ class ProductsController < ApplicationController
   # => send msgs to these customers
   def sendMsgs(phoneNos, msg)
     for num in phoneNos
-
+      print msg
+      Net::HTTP.get(URI.parse('http://192.168.43.212:9501/api?username=admin&password=admin&action=sendmessage&messagetype=SMS:TEXT&recipient=' + num.to_s + "&messagedata=" + msg))
     end
   end
 

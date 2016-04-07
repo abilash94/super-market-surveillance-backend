@@ -58,6 +58,14 @@ class BillingCustomerCartsController < ApplicationController
     end
   end
 
+  def deleteAll
+    all = BillingCustomerCart.all
+    for i in all
+      i.destroy
+    end
+    return render json:{ :deleted => "all"}
+  end
+
   # DELETE /billing_customer_carts/1
   # DELETE /billing_customer_carts/1.json
   def destroy
