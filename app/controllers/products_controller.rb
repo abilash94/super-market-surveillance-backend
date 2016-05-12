@@ -53,7 +53,20 @@ class ProductsController < ApplicationController
   def sendMsgs(phoneNos, msg)
     for num in phoneNos
       print msg
-      Net::HTTP.get(URI.parse('http://192.168.43.212:9501/api?username=admin&password=admin&action=sendmessage&messagetype=SMS:TEXT&recipient=' + num.to_s + "&messagedata=" + msg))
+      ip_and_port = Net::HTTP.get(URI.parse('http://localhost:8000/OzekiIP.txt'))
+      ip_and_port = ip_and_port.split("\n")
+      ip_and_port = ip_and_port[0]
+      print "IP AND PORT " + ip_and_port
+
+      # => hardcoded ip_and_port
+      #ip_and_port = '127.0.0.1:9501'
+
+      # => url for GET request to ozeki msg sending
+      ozeki_request = 'http://' + ip_and_port + '/api?username=admin&password=admin&action=sendmessage&messagetype=SMS:TEXT&recipient=' + num.to_s + "&messagedata=" + msg
+      print "\nOZEKI " + ozeki_request
+      
+      # => send GET request
+      Net::HTTP.get(URI.parse(ozeki_request))
     end
   end
 
